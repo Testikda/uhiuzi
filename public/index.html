@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>Pexeso Online</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <div id="conn" class="conn hidden" role="status">Připojuji se k serveru…</div>
+  <div id="toast" class="toast hidden" role="alert"></div>
+
+  <!-- ───── Úvod ───── -->
+  <main id="screen-home" class="screen">
+    <section class="panel home">
+      <h1 class="logo">Pexeso<span>online</span></h1>
+      <p class="lead">Najdi víc dvojic než kamarádi. Až pro čtyři hráče.</p>
+
+      <div class="field">
+        <label for="nick">Přezdívka</label>
+        <input id="nick" type="text" maxlength="16" autocomplete="nickname" spellcheck="false" placeholder="Např. Lucka">
+      </div>
+
+      <div class="field">
+        <span class="label" id="avatar-label">Avatar</span>
+        <div id="avatars" class="avatars" role="radiogroup" aria-labelledby="avatar-label"></div>
+      </div>
+
+      <div class="home-actions">
+        <div class="field">
+          <label for="roomName">Název lobby (volitelné)</label>
+          <input id="roomName" type="text" maxlength="24" spellcheck="false" placeholder="Páteční turnaj">
+        </div>
+        <button id="btn-create" class="btn primary">Založit lobby</button>
+      </div>
+
+      <div class="divider"><span>nebo vstup s kódem</span></div>
+
+      <div class="join-row">
+        <input id="joinCode" type="text" maxlength="6" autocomplete="off" spellcheck="false" placeholder="KÓD" aria-label="Kód lobby">
+        <button id="btn-join" class="btn">Připojit se</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ───── Lobby ───── -->
+  <main id="screen-lobby" class="screen hidden">
+    <section class="panel lobby">
+      <header class="lobby-head">
+        <div>
+          <h2 id="lobby-name">Lobby</h2>
+          <p class="muted">Sdílej kód nebo odkaz. Hra začne, až host stiskne Start.</p>
+        </div>
+        <button id="btn-leave" class="btn ghost small">Odejít</button>
+      </header>
+
+      <div class="share">
+        <div class="code-box" aria-label="Kód lobby">
+          <span class="muted small-label">Kód lobby</span>
+          <strong id="lobby-code" class="code">------</strong>
+        </div>
+        <div class="share-btns">
+          <button id="btn-copy-code" class="btn small">Kopírovat kód</button>
+          <button id="btn-copy-link" class="btn small">Kopírovat odkaz</button>
+        </div>
+      </div>
+
+      <h3>Hráči <span id="player-count" class="muted">1/4</span></h3>
+      <ul id="lobby-players" class="player-list"></ul>
+
+      <div id="host-settings" class="settings">
+        <div class="field">
+          <span class="label" id="diff-label">Obtížnost</span>
+          <div id="difficulty" class="seg" role="radiogroup" aria-labelledby="diff-label">
+            <button type="button" role="radio" data-value="easy">Easy<small>12 dvojic</small></button>
+            <button type="button" role="radio" data-value="medium">Medium<small>30 dvojic</small></button>
+            <button type="button" role="radio" data-value="hard">Hard<small>60 dvojic</small></button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="label" id="theme-label">Téma karet</span>
+          <div id="themes" class="themes" role="radiogroup" aria-labelledby="theme-label"></div>
+        </div>
+        <button id="btn-start" class="btn primary big">Spustit hru</button>
+      </div>
+      <p id="guest-wait" class="muted center hidden">Čekáme, až host spustí hru. Nastavení: <span id="guest-settings"></span></p>
+    </section>
+  </main>
+
+  <!-- ───── Hra ───── -->
+  <main id="screen-game" class="screen hidden">
+    <header class="hud">
+      <div id="hud-players" class="hud-players"></div>
+      <div class="hud-side">
+        <div class="turn-banner" id="turn-banner">Na tahu: —</div>
+        <div class="timer" aria-hidden="true"><i id="timer-bar"></i></div>
+        <div class="progress muted" id="progress">0 / 0 dvojic</div>
+      </div>
+    </header>
+    <div class="board-wrap" id="board-wrap">
+      <div id="board" class="board" role="grid" aria-label="Herní pole"></div>
+    </div>
+  </main>
+
+  <!-- ───── Konec hry ───── -->
+  <div id="modal-finish" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="finish-title">
+    <div class="panel finish">
+      <h2 id="finish-title">Konec hry</h2>
+      <p id="finish-sub" class="lead"></p>
+      <ol id="leaderboard" class="leaderboard"></ol>
+      <div class="finish-actions">
+        <button id="btn-rematch" class="btn primary">Hrát znovu</button>
+        <button id="btn-tolobby" class="btn">Zpět do lobby</button>
+        <button id="btn-finish-leave" class="btn ghost">Odejít</button>
+      </div>
+      <p id="finish-wait" class="muted center hidden">Čekáme, až host zahájí další kolo.</p>
+    </div>
+  </div>
+
+  <script src="/themes.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
