@@ -172,6 +172,10 @@ function client(origin = ORIGIN) {
     const csp = res.headers.get('content-security-policy');
     assert(csp.includes("script-src 'self'") && !csp.includes('unsafe-inline'));
     assert.strictEqual(res.headers.get('x-frame-options'), 'DENY');
+    for (const f of ['/app.js', '/themes.js', '/style.css', '/favicon.svg']) assert.strictEqual((await fetch(ORIGIN + f)).status, 200, f);
+    // každý <script src> a <link href> z index.html musí být dostupný
+    const html = await (await fetch(ORIGIN + '/')).text();
+    for (const m of html.matchAll(/(?:src|href)="(\/[^"]+)"/g)) assert.strictEqual((await fetch(ORIGIN + m[1])).status, 200, m[1]);
     assert.strictEqual((await fetch(ORIGIN + '/server.js')).status, 404);
     assert.strictEqual((await fetch(ORIGIN + '/../server.js')).status, 404);
     pass('CSP bez unsafe-inline, server.js není dostupný přes HTTP');

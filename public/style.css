@@ -199,8 +199,8 @@ input:focus-visible { border-color: var(--accent-2); box-shadow: 0 0 0 4px rgba(
 .board[data-difficulty="medium"] { --min: 52px; max-width: 980px; gap: 8px; }
 .board[data-difficulty="hard"] { --min: 44px; max-width: 1180px; gap: 6px; }
 
-.card { aspect-ratio: 1; perspective: 700px; border: 0; background: none; padding: 0; cursor: pointer; container-type: inline-size; }
-.card .inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.3, 1.2, .5, 1); }
+.card { position: relative; display: block; width: 100%; min-width: 0; justify-self: stretch; aspect-ratio: 1 / 1; perspective: 700px; border: 0; background: none; padding: 0; cursor: pointer; container-type: inline-size; }
+.card .inner { display: block; position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.3, 1.2, .5, 1); }
 .card.up .inner, .card.matched .inner { transform: rotateY(180deg); }
 .face {
   position: absolute; inset: 0; border-radius: 22%; backface-visibility: hidden; -webkit-backface-visibility: hidden;
